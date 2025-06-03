@@ -1,0 +1,44 @@
+/* SearchResultsDropdown.css */
+.twitter-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background-color: #2f3336;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 8px 0;
+    z-index: 1000;
+    list-style: none;
+  }
+  .twitter-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+  .twitter-item:hover {
+    background-color: rgba(255,255,255,0.1);
+  }
+  .twitter-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+  }
+  .twitter-text {
+    display: flex;
+    flex-direction: column;
+  }
+  .twitter-name {
+    font-weight: bold;
+    color: #e9e9ea;
+  }
+  .twitter-username {
+    font-size: 0.875rem;
+    color: #71767b;
+  }

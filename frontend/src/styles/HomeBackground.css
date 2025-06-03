@@ -1,0 +1,70 @@
+/* src/components/HomeBackground.css */
+
+/* Cały kontener z tłem */
+.home-background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Zapobiega przewijaniu */
+  cursor: url('/cursors/homeCursor.png') 16 16, auto;
+}
+  
+  /* Wideo tła */
+  .home-background-video video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100vw;
+    min-height: 100vh;
+    object-fit: cover;
+}
+  
+  /* Overlay z przezroczystością dla efektu */
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Treść na wierzchu tła */
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    z-index: 1;
+  }
+  
+  /* Stylizacja nagłówka */
+  .content h2 {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+  
+  /* Opis pod nagłówkiem */
+  .description {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+  
+  /* Przycisk */
+  .button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .button:hover {
+    background-color: #45a049;
+  }

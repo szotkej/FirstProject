@@ -1,0 +1,57 @@
+/* 1. Cały dropdown — wygląd i ograniczona szerokość */
+.dropdown-menu.show {
+    background: #15202B;           /* ciemne tło jak na Twitterze */
+    border: 1px solid #38444D;     /* subtelna ramka */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 8px 0;
+    max-width: 400px;              /* niech dropdown nie rozciąga się za bardzo */
+    width: 100%;
+    position: absolute;
+    z-index: 1000;
+  }
+  
+  /* 1a. Centrowanie lub wyrównanie do inputa */
+  .dropdown-container {
+    position: relative;
+    display: flex;
+    justify-content: center;       /* lub flex-start jeśli chcesz wyrównać do lewej */
+  }
+  
+  /* 2. Każdy item to flex z avatar + nazwa */
+  .dropdown-menu.show .dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    color: #E1E8ED;                /* jasny tekst */
+    background: transparent;
+    transition: background 0.2s;
+    gap: 8px;
+  }
+  
+  /* 3. Hover jak na Twitterze */
+  .dropdown-menu.show .dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* 4. Avatar po lewej */
+  .dropdown-menu.show .dropdown-item::before {
+    content: "";
+    display: block;
+    width: 32px;
+    height: 32px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    background-image: var(--avatar-url, url('/assets/default_avatar.jpg'));
+  }
+  
+  /* 5. Tekst nazwy użytkownika */
+  .dropdown-menu.show .dropdown-item .username {
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  

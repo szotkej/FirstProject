@@ -1,0 +1,39 @@
+/* NavbarMain.css */
+.navbar {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    background-color: #000;
+    color: #e9e9ea;
+    height: 56px;
+  }
+  .navbar-left { cursor: pointer; }
+  .search-container {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+    margin: 0 16px;
+  }
+  .search-input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 9999px;
+    background-color: #202327;
+    border: none;
+    color: #e9e9ea;
+  }
+  .search-input:focus {
+    outline: none;
+  }
+  .navbar-right {
+    display: flex;
+    align-items: center;
+  }
+  .profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+  .profile-name {
+    margin-left: 8px;
+  }

@@ -1,0 +1,24 @@
+/* src\styles\Home.css */
+
+.lobby-link {
+  cursor: url('/cursors/homePointer.png') 16 16, pointer;
+  position: absolute;
+  left: 10%; /* Odległość od lewej */
+  top: 70%;  /* Odległość od góry */
+  text-decoration: none;
+}
+
+.lobby-text {
+  color: #ffffff;
+  font-size: clamp(20px, 5vw, 100px); /* Dynamiczny rozmiar napisu */
+  font-family: 'Manrope', Arial, sans-serif;
+  font-weight: 300;
+  letter-spacing: -3px;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.lobby-link:hover .lobby-text {
+  color: #99a3a3;
+}

@@ -1,0 +1,102 @@
+/* src\styles\GameTables.module.css */
+
+.container {
+  @apply p-4 h-screen overflow-hidden;
+  cursor: url("/cursors/lobbyCursor.png") 16 16, auto;
+  flex-direction: column;
+}
+
+.title {
+  @apply text-xl font-bold mb-4;
+}
+
+.createTableButton {
+  @apply bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-4;
+  cursor: url("/cursors/lobbyPointer.png") 16 16, auto;
+}
+
+.tableList {
+  @apply grid grid-cols-1 gap-4 overflow-y-auto;
+  max-height: calc(100vh - 150px); /* Dostosuj wysokość do reszty UI */
+  padding-right: 4px; /* Zapewnia miejsce na pasek przewijania */
+}
+
+.gametable {
+  @apply flex border rounded shadow-lg overflow-hidden mb-4;
+}
+
+.gametableIndicator {
+  @apply bg-green-500 w-4;
+}
+
+.gametableContent {
+  @apply p-4 flex-grow;
+}
+
+.gametableUpperPart {
+  @apply flex justify-between items-center;
+}
+
+.gameInfo {
+  @apply flex flex-col;
+}
+
+.gamename {
+  @apply font-bold text-lg;
+}
+
+.tableStatus {
+  @apply text-sm text-gray-500;
+}
+
+.gametable_button_zone {
+  @apply flex gap-2;
+}
+
+.button {
+  @apply px-3 py-1 rounded text-white min-w-[80px];
+}
+
+.button_blue {
+  @apply bg-blue-500 hover:bg-blue-600;
+}
+
+.button_gray {
+  @apply bg-gray-400 hover:bg-gray-500;
+}
+
+.players {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-2 mt-2;
+}
+
+.tableplace {
+  @apply flex flex-col items-center p-2 border rounded w-[100px]; /* Zmień szerokość na 60px lub inną wartość */
+}
+
+.emblemwrap {
+  @apply flex justify-center items-center;
+}
+
+.emblem {
+  @apply w-8 h-8 rounded-full;
+}
+
+.emblemFreeplace {
+  @apply w-8 h-8 rounded-full;
+}
+
+.playerNameWrap {
+  @apply text-center mt-1;
+}
+
+.freePlaceImage {
+  @apply w-8 h-8 object-none object-left rounded-[25px] border border-gray-600 shadow-[0_1px_3px_rgba(0,0,0,1),inset_0_2px_3px_rgba(0,0,0,0.4)];
+}
+
+.playerName {
+  @apply text-sm;
+}
+
+.expel {
+  @apply text-red-500 cursor-pointer underline hover:text-red-600 text-xs mt-0 block;
+}
