@@ -180,7 +180,9 @@ class WebSocketService {
 
   private connectWebSocket() {
     console.log('[connectWebSocket] 🚀 Opening WebSocket connection');
-    this.socket = new WebSocket('ws://localhost:8080');
+    //this.socket = new WebSocket('ws://localhost:8080');
+    this.socket = new WebSocket('wss://firstproject-websocket.onrender.com');
+    wss://firstproject-websocket.onrender.com
     this.socket.onopen = () => {
       this.isConnected = true;
       if (this.onConnect) this.onConnect();
