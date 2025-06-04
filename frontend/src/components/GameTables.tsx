@@ -55,14 +55,14 @@ const GameTables: React.FC = () => {
 
       const newTable = {
         idOwner: user.uid,
-        creator: user.username || "Anonymous Player",
+        creator: user.displayName || "Anonymous Player",
         createdAt: Date.now(),
         status: "waiting",
         players: [
           {
             id: user.uid,
-            name: user.username || "Anonymous Player",
-            avatar: user.avatar || "/default-avatar.png",
+            name: user.displayName || "Anonymous Player",
+            avatar: user.photoURL || "/default-avatar.png",
           },
         ],
         maxPlayers: 12,
@@ -106,8 +106,8 @@ const GameTables: React.FC = () => {
         body: JSON.stringify({
           player: {
             id: user.uid,
-            name: user.username || "Anonymous Player",
-            avatar: user.avatar || "/default-avatar.png",
+            name: user.displayName || "Anonymous Player",
+            avatar: user.photoURL || "/default-avatar.png",
           },
         }),
       });
