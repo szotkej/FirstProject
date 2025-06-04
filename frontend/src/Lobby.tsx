@@ -1,7 +1,7 @@
   // src\Lobby.tsx
 
   import React, { useContext, useState, useEffect } from "react";
-  import UserAvatarWithMenu from "./components/UserAvatarWithMenu";
+  //import UserAvatarWithMenu from "./components/UserAvatarWithMenu";
   import { UserContext } from "./context/UserContext";
   // import LobbyBackground from "./components/LobbyBackground";
   //import GeneralChat from "./components/GeneralChat";
