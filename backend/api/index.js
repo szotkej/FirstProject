@@ -87,7 +87,8 @@ app.post("/api/auth/anonymous", async (req, res) => {
     // Tworzenie anonimowego użytkownika w Firebase Auth
     const userRecord = await admin.auth().createUser({
       displayName: displayName,
-      photoURL: "http://localhost:5173/assets/default_avatar.jpg",
+      photoURL: "https://naneno.netlify.app/assets/default_avatar.jpg"
+      //photoURL: "http://localhost:5173/assets/default_avatar.jpg",
     }); 
     console.log(userRecord)
     // Generowanie tokena dla nowego użytkownika
@@ -100,7 +101,8 @@ app.post("/api/auth/anonymous", async (req, res) => {
       displayNameLowercase: displayName.toLowerCase(),
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       lastSeen: admin.firestore.FieldValue.serverTimestamp(),
-      photoURL: "http://localhost:5173/assets/default_avatar.jpg",
+      //photoURL: "http://localhost:5173/assets/default_avatar.jpg",
+      photoURL: "https://naneno.netlify.app/assets/default_avatar.jpg",
       location: null,
       fontColor: "rgb(0, 0, 0)",
       birthDate: null,
