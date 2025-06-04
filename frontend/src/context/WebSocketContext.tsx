@@ -1,4 +1,5 @@
 // frontend/src/context/WebSocketContext.tsx
+
 import React, { useRef, createContext, useContext, useEffect, useState, useCallback } from 'react';
 import wsService from '@/services/WebSocketService';
 import { useAuth } from './UserContext';

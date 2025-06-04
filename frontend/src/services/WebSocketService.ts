@@ -1,3 +1,5 @@
+// frontend\src\services\WebSocketService.ts
+
 import { BroadcastChannel } from 'broadcast-channel';
 
 class WebSocketService {

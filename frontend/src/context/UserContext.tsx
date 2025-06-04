@@ -20,7 +20,8 @@ interface UserContextType {
   loading: boolean;
 }
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://firstproject-backend.onrender.com/api";
+//const API_URL = "http://localhost:3001/api";
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
