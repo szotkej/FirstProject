@@ -16,6 +16,7 @@ class WebSocketService {
     pendingConnectConfig;
     knownTabs = new Set();
     pendingSubscriptions = [];
+    
     constructor() {
         this.tabId = Date.now().toString() + Math.random().toString(36).slice(2);
         console.log(`[WebSocketService] Initialized tabId=${this.tabId}, isMaster=${this.isMaster}`);
@@ -167,9 +168,9 @@ class WebSocketService {
         }, { once: true });
     }
     connectWebSocket() {
-        console.log('[connectWebSocket] 🚀 Opening WebSocket connection');
-        //this.socket = new WebSocket('ws://localhost:8080');
-        this.socket = new WebSocket('wss://firstproject-websocket.onrender.com');
+        const socketURL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080';
+        console.log(`[connectWebSocket] 🚀 Opening WebSocket connection to ${socketURL}`);
+        this.socket = new WebSocket(socketURL);
         this.socket.onopen = () => {
             this.isConnected = true;
             if (this.onConnect)

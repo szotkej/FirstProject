@@ -179,9 +179,9 @@
     }
 
     private connectWebSocket() {
-      console.log('[connectWebSocket] 🚀 Opening WebSocket connection');
-      //this.socket = new WebSocket('ws://localhost:8080');
-      this.socket = new WebSocket('wss://firstproject-websocket.onrender.com');
+        const socketURL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080';
+        console.log(`[connectWebSocket] 🚀 Opening WebSocket connection to ${socketURL}`);
+        this.socket = new WebSocket(socketURL);
       this.socket.onopen = () => {
         this.isConnected = true;
         if (this.onConnect) this.onConnect();
