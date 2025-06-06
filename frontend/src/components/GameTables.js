@@ -3,8 +3,7 @@
     import { useState, useEffect } from "react";
     import { useAuth } from "../context/UserContext";
     import styles from "../styles/GameTables.module.css";
-    //const API_URL = "http://localhost:3001/api"; // Zastąp adresem swojego API
-    const API_URL = "https://firstproject-backend.onrender.com/api"; // Zastąp adresem swojego API
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
     const GameTables = () => {
         const [tables, setTables] = useState([]);
         const user = useAuth();

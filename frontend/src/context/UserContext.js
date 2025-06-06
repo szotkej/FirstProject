@@ -6,8 +6,7 @@ import { signInWithCustomToken, getAuth, setPersistence, browserLocalPersistence
 import firebaseConfig from "@/firebase/firebaseConfig";
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
-const API_URL = "https://firstproject-backend.onrender.com/api";
-//const API_URL = "http://localhost:3001/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 export const UserContext = createContext(undefined);
 export const UserProvider = ({ children }) => {
     const fetchedRef = useRef(false); // flag, czy już pobraliśmy dane
