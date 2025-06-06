@@ -26,8 +26,7 @@ const formatLastSeen = (lastSeen: Timestamp | string | null): string => {
 };
 
 const DEFAULT_AVATAR = "/assets/default_avatar.jpg"
-const API_URL = "https://firstproject-backend.onrender.com/api"; // Adres API
-//const API_URL = "http://localhost:3001/api"; // Adres API
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
 const PlayerProfile: React.FC = () => {
   // Pobieramy dane z kontekstu użytkownika; teraz dane te będą aktualizowane na bieżąco, np. status przez WS.

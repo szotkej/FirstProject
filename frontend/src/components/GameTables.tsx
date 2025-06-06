@@ -14,8 +14,7 @@ interface GameTable {
   idOwner: string;
 }
 
-//const API_URL = "http://localhost:3001/api"; // Zastąp adresem swojego API
-const API_URL = "https://firstproject-backend.onrender.com/api"; // Zastąp adresem swojego API
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
 const GameTables: React.FC = () => {
   const [tables, setTables] = useState<GameTable[]>([]);

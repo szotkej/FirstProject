@@ -4,8 +4,7 @@
   import "../styles/file.css";
   import "../styles/SearchResults.css";
   const DEFAULT_AVATAR = "/assets/default_avatar.jpg";
-//const API_URL = "http://localhost:3001/api"; // <-- Zmienna na Twój backend
-  const API_URL = "https://firstproject-backend.onrender.com/api"; // <-- Zmienna na Twój backend
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
   const NavbarMain: React.FC = () => {
     const { displayName, photoURL } = useAuth();
