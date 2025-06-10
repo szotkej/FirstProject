@@ -1,0 +1,14 @@
+# node modules
+**/node_modules
+
+# build output
+frontend/dist
+dist
+build
+
+# środowiskowe pliki
+*.env
+**/werewolves-game-ba38e-firebase-adminsdk-fbsvc-3f085ca164.json
+
+# TypeScript cache
+*.tsbuildinfo

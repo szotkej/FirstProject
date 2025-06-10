@@ -1,10 +1,11 @@
-// backend\firebase\firebaseConfig.js
+// backend/firebase/firebaseConfig.js
 const admin = require('firebase-admin');
-const serviceAccount = require('./serviceAccountKey.json'); // Upewnij się, że plik istnieje
+require('dotenv').config();
+const serviceAccount = require('../werewolves-game-ba38e-firebase-adminsdk-fbsvc-3f085ca164.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://werewolves-game-ba38e.firebaseio.com"
+  databaseURL: process.env.FIREBASE_DB_URL,
 });
 
 module.exports = admin;

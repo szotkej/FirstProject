@@ -1,4 +1,5 @@
 // backend/api/index.js
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
@@ -8,11 +9,26 @@ const db = require('../firebase/firestore');
 
 // Import funkcji weryfikacyjnych (także z folderu firebase)
 const { verifyIdToken } = require('../firebase/authentication');
-const DEFAULT_AVATAR_URL = process.env.DEFAULT_AVATAR_URL || "http://localhost:5173/assets/default_avatar.jpg";
+const DEFAULT_AVATAR_URL = process.env.DEFAULT_AVATAR_URL;
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://naneno.netlify.app'
+];
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Pozwól na brak origin (np. curl, Postman) oraz na wybrane domeny
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 
 // Middleware do weryfikacji tokena
@@ -60,6 +76,10 @@ app.get('/api/profile/:uid', authenticate, async (req, res) => {
   console.log("Wywołano endpoint GET /api/profile/:uid, uid =", req.params.uid);
   try {
     const uid = req.params.uid;
+        // ⛔️ Sprawdzenie, czy zalogowany użytkownik ma dostęp do tego UID
+    if (req.user.uid !== uid) {
+      return res.status(403).json({ error: "Brak dostępu do profilu" });
+    }
     const userDoc = await db.collection('users').doc(uid).get();
     if (!userDoc.exists) {
       return res.status(404).json({ error: 'Profil użytkownika nie istnieje', uid });
@@ -124,8 +144,11 @@ app.get('/api/search-users', authenticate, async (req, res) => {
   try {
     console.log("Wyszukiwanie użytkowników zawierających:", query);
 
-    const usersRef = db.collection('users');
-    const snapshot = await usersRef.get(); // Pobierz wszystkie dokumenty
+    const usersRef = db.collection('users')
+    .where('displayNameLowercase', '>=', query)
+    .where('displayNameLowercase', '<=', query + '\uf8ff');
+    const snapshot = await usersRef.get();
+
 
     const results = [];
     snapshot.forEach(doc => {
@@ -147,7 +170,7 @@ app.get('/api/search-users', authenticate, async (req, res) => {
 });
 
 module.exports = app;
-
-app.listen(3001, () => {
-  console.log("Serwer działa na porcie 3001");
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Serwer działa na porcie ${PORT}`);
 });

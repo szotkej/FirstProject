@@ -1,12 +1,14 @@
 // websocket/server.js
+require('dotenv').config();
 const WebSocket = require('ws');
 const { v4: uuidv4 } = require('uuid');
 
 // Import konfiguracji Firebase, dzięki której możemy aktualizować Firestore
-const admin = require('../backend/firebase/firebaseConfig');
+const admin = require('../firebase/firebaseConfig');
 
 // Utwórz serwer WebSocket
-const wss = new WebSocket.Server({ port: process.env.PORT || 8080 });
+const wss = new WebSocket.Server({ port: process.env.WS_PORT || 8080 });
+console.log("Serwer WebSocket działa na porcie", process.env.WS_PORT || 8080);
 const channels = new Map();
 
 function subscribe(ws, channel) {
@@ -191,5 +193,3 @@ wss.on('connection', (ws) => {
 wss.on('close', () => {
   clearInterval(interval);
 });
-
-console.log("Serwer WebSocket działa na porcie 8080");
