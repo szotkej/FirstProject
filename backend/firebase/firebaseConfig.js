@@ -1,6 +1,5 @@
 // backend/firebase/firebaseConfig.js
 const admin = require('firebase-admin');
-require('dotenv').config();
 const serviceAccount = {
   type: 'service_account',
   project_id: process.env.FIREBASE_PROJECT_ID,
