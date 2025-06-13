@@ -179,7 +179,7 @@
     }
 
     private connectWebSocket() {
-        const socketURL = import.meta.env.VITE_WS_URL || 'ws://localhost:3001';
+        const socketURL = import.meta.env.VITE_WS_URL;
         console.log(`[connectWebSocket] 🚀 Opening WebSocket connection to ${socketURL}`);
         this.socket = new WebSocket(socketURL);
       this.socket.onopen = () => {

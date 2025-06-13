@@ -14,7 +14,7 @@ interface GameTable {
   idOwner: string;
 }
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const GameTables: React.FC = () => {
   const [tables, setTables] = useState<GameTable[]>([]);

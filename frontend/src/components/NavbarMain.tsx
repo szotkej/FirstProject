@@ -4,7 +4,7 @@
   import "../styles/file.css";
   import "../styles/SearchResults.css";
   const DEFAULT_AVATAR = "/assets/default_avatar.jpg";
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const NavbarMain: React.FC = () => {
     const { displayName, photoURL } = useAuth();
