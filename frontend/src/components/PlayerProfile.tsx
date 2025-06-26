@@ -179,69 +179,63 @@ const handleBirthDateChange = (date: Date | null) => {
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
-    const file = e.target.files[0];
+  if (!e.target.files || e.target.files.length === 0) return;
+  const file = e.target.files[0];
 
-    const validTypes = ["image/jpeg", "image/png"];
-    const maxSize = 4 * 1024 * 1024; // 4 MB
+  const validTypes = ['image/jpeg', 'image/png'];
+  const maxSize = 4 * 1024 * 1024; // 4 MB
 
-    if (!validTypes.includes(file.type)) {
-      alert("Only JPEG and PNG files are allowed.");
-      return;
-    }
+  if (!validTypes.includes(file.type)) {
+    alert('Only JPEG and PNG files are allowed.');
+    return;
+  }
 
-    if (file.size > maxSize) {
-      alert("File size cannot exceed 4 MB.");
-      return;
-    }
+  if (file.size > maxSize) {
+    alert('File size cannot exceed 4 MB.');
+    return;
+  }
 
-    setSelectedAvatarFile(file);
-    setPreviewAvatarURL(URL.createObjectURL(file)); // Podgląd pliku
+  setSelectedAvatarFile(file);
+  setPreviewAvatarURL(URL.createObjectURL(file)); // Podgląd pliku
+  setUploading(true);
 
-    setUploading(true);
-
-    try {
-      const formData = new FormData();
-      formData.append("avatar", file);
-
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        alert("Authorization token not found. Please log in again.");
-        return;
-      }
-      const response = await fetch(`${API_URL}/profile/${loggedInUserId}/avatar`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
+  try {
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64String = reader.result?.toString().split(',')[1];
+      const response = await fetch('/.netlify/functions/upload-avatar', {
+        method: 'POST',
+        body: JSON.stringify({ avatar: base64String }),
+        headers: { 'Content-Type': 'application/json' },
       });
 
-      if (!response.ok) throw new Error("Failed to upload avatar");
+      if (!response.ok) throw new Error('Failed to upload avatar');
 
-      const { photoURL: newPhotoURL } = await response.json();
+      const { photoURL } = await response.json();
 
       if (userData) {
-        const updatedUser = { ...userData, photoURL: newPhotoURL };
+        const updatedUser = { ...userData, photoURL };
         setUserData(updatedUser);
         setInitialUserData(updatedUser);
       }
-
       updateUserData({
-        displayName: userData?.displayName || "",
-        photoURL: newPhotoURL,
+        displayName: userData?.displayName || '',
+        photoURL,
         birthDate: userData?.birthDate || null,
         location: userData?.location || null,
         fontColor: userData?.fontColor || null,
         userDescription: userData?.userDescription || null,
       });
-
-    } catch (error) {
-      console.error("Error uploading avatar:", error);
-      alert("Error uploading avatar.");
-    } finally {
-      setUploading(false);
-      setPreviewAvatarURL(null);
-    }
-  };
+    };
+    reader.readAsDataURL(file);
+  } catch (error) {
+    console.error('Error uploading avatar:', error);
+    alert('Error uploading avatar.');
+  } finally {
+    setUploading(false);
+    setPreviewAvatarURL(null);
+  }
+};
 
   useEffect(() => {
     return () => {

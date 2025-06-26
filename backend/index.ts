@@ -6,7 +6,7 @@ import cors from 'cors';
 import http from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
-import profileRouter from './routes/profile.js';
+import profileRouter from './routes/profile.ts';
 
 // Firebase configuration
 import admin from './firebase/firebaseConfig';

@@ -1,8 +1,7 @@
 // backend\routes\profile.ts
 import express from 'express';
 import { upload } from '../middlewares/upload';
-import { updateUserPhotoURL } from '../services/userService.js'; // Twoja funkcja do aktualizacji bazy
-import path from 'path';
+import { updateUserPhotoURL } from '../services/userService.js';
 
 const router = express.Router();
 
@@ -13,17 +12,13 @@ router.post('/profile/:id/avatar', upload.single('avatar'), async (req, res) => 
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded.' });
     }
-    
-    const avatarPath = `uploads/avatars/${req.file.filename}`;
-    console.log('File saved at:', avatarPath); // Dodaj logowanie
-    const photoURL = `${process.env.BASE_URL}/uploads/avatars/${req.file.filename}`;
 
-    // Zaktualizuj photoURL w bazie
+    // Ponieważ upload jest teraz na Netlify, zwróć pustą odpowiedź lub obsługuj tylko aktualizację
+    const photoURL = ''; // To zostanie zaktualizowane przez frontend
     await updateUserPhotoURL(userId, photoURL);
-
-    return res.json({ photoURL });
+    return res.json({ photoURL: 'Upload handled by frontend' });
   } catch (error) {
-    console.error('Error uploading avatar:', error);
+    console.error('Error in avatar route:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 });

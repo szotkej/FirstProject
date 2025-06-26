@@ -19,6 +19,7 @@ const serviceAccount = {
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
   databaseURL: process.env.FIREBASE_DB_URL,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
 });
 
 export default admin;
