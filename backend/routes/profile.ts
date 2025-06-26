@@ -14,8 +14,7 @@ router.post('/profile/:id/avatar', upload.single('avatar'), async (req, res) => 
       return res.status(400).json({ error: 'No file uploaded.' });
     }
 
-    const avatarPath = `/uploads/avatars/${req.file.filename}`; // Ścieżka do pliku, którą frontend może odczytać
-    const photoURL = `${process.env.BASE_URL}${avatarPath}`; // Np. https://example.com/uploads/avatars/...
+    const photoURL = `${process.env.BASE_URL}/uploads/avatars/${req.file.filename}`;
 
     // Zaktualizuj photoURL w bazie
     await updateUserPhotoURL(userId, photoURL);
