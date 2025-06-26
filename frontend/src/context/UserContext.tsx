@@ -17,7 +17,9 @@ interface UserContextType {
   fontColor: string | null;
   birthDate: string | null;
   status: string;
+  userDescription: string | null;
   loading: boolean;
+  updateUserData: (data: Partial<UserContextType>) => void;
 }
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -26,6 +28,14 @@ export const UserContext = createContext<UserContextType | undefined>(undefined)
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const fetchedRef = useRef(false); // flag, czy już pobraliśmy dane
   const firstEvent = useRef(true);
+
+    const updateUserData = (data: Partial<UserContextType>) => {
+    setUserData((prevData) => ({
+      ...prevData,
+      ...data,
+    }));
+  };
+
   const [userData, setUserData] = useState<UserContextType>({
     uid: null,
     displayName: null,
@@ -36,7 +46,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     fontColor: null,
     birthDate: null,
     status: "Offline",
+    userDescription: null,
     loading: true,
+    updateUserData,
   });
 
   useEffect(() => {
@@ -137,6 +149,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         fontColor: userDataFromAPI.fontColor || null,
         birthDate: userDataFromAPI.birthDate || null,
         status: userDataFromAPI.status || "Offline",
+        userDescription: userDataFromAPI.userDescription || null,
         loading: false,
       }));
     } catch (error) {
@@ -146,7 +159,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <UserContext.Provider value={{ ...userData }}>
+    <UserContext.Provider value={{ ...userData, updateUserData }}>
       {!userData.loading && children}
     </UserContext.Provider>
   );
@@ -154,7 +167,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 export const useAuth = () => {
   const context = useContext(UserContext);
-  //console.log("UserContext::", context);
+  console.log("UserContext::", context);
   if (!context) throw new Error("useAuth must be used within a UserProvider");
   return context;
 };

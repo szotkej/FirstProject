@@ -2,7 +2,7 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "target": "ESNext",
     "strict": true,
     "baseUrl": "./",
@@ -10,7 +10,10 @@
       "@/*": ["src/*"]
     },
     "types": ["node"],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "lib": ["dom", "esnext"],
+    "skipLibCheck": true
   },
   "include": ["src"]
 }

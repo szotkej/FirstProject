@@ -1,4 +1,4 @@
-// src/Home.tsx
+// frontend\src\Home.tsx
 
 import { Link } from 'react-router-dom';
 import './styles/Home.css';

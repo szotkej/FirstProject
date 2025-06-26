@@ -9,7 +9,6 @@ build
 # środowiskowe pliki
 *.env
 *serviceAccountKey.json
-*EXserver.js
 
 # TypeScript cache
 *.tsbuildinfo

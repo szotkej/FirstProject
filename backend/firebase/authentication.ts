@@ -1,7 +1,8 @@
 // backend\firebase\authentication.js
-const admin = require('./firebaseConfig');
 
-async function verifyIdToken(token) {
+import admin from './firebaseConfig';
+
+export async function verifyIdToken(token: string) {
   try {
     const decodedToken = await admin.auth().verifyIdToken(token);
     return decodedToken;
@@ -11,4 +12,3 @@ async function verifyIdToken(token) {
   }
 }
 
-module.exports = { verifyIdToken };
