@@ -13,7 +13,9 @@ router.post('/profile/:id/avatar', upload.single('avatar'), async (req, res) => 
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded.' });
     }
-
+    
+    const avatarPath = `uploads/avatars/${req.file.filename}`;
+    console.log('File saved at:', avatarPath); // Dodaj logowanie
     const photoURL = `${process.env.BASE_URL}/uploads/avatars/${req.file.filename}`;
 
     // Zaktualizuj photoURL w bazie
