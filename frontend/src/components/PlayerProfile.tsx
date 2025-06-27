@@ -51,10 +51,16 @@ const PlayerProfile: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [initialUserData, setInitialUserData] = useState<UserData | null>(null);
   const [profileUserId, setProfileUserId] = useState<string | null>(null);
-  const [selectedAvatarFile, setSelectedAvatarFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [previewAvatarURL, setPreviewAvatarURL] = useState<string | null>(null);
+  const [avatarVersion, setAvatarVersion] = useState<number>(Date.now());
+  const [showColorPicker, setShowColorPicker] = useState(false);
+ 
+  const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`;
+  const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const colorRef = React.useRef<HTMLDivElement>(null);
   const browserLocation = useLocation();
   const navigate = useNavigate();
 
@@ -92,6 +98,15 @@ const PlayerProfile: React.FC = () => {
       return;
     }
 
+    const cachedProfile = localStorage.getItem(`profile_${profileId}`);
+    if (cachedProfile) {
+      const parsed = JSON.parse(cachedProfile) as UserData;
+      setUserData(parsed);
+      setInitialUserData(parsed);
+      setLoading(false);
+      return;
+    }
+
     const fetchUserProfile = async () => {
       try {
         const token = localStorage.getItem("authToken");
@@ -106,6 +121,7 @@ const PlayerProfile: React.FC = () => {
         console.log("dataUser from API", userDataFromAPI);
         setUserData(userDataFromAPI);
         setInitialUserData(userDataFromAPI);
+        localStorage.setItem(`profile_${profileId}`, JSON.stringify(userDataFromAPI));
         if (userDataFromAPI.birthDate) {
           setSelectedBirthDate(new Date(userDataFromAPI.birthDate));
         }
@@ -178,7 +194,7 @@ const handleBirthDateChange = (date: Date | null) => {
     }
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   if (!e.target.files || e.target.files.length === 0) return;
   const file = e.target.files[0];
 
@@ -195,47 +211,65 @@ const handleBirthDateChange = (date: Date | null) => {
     return;
   }
 
-  setSelectedAvatarFile(file);
   setPreviewAvatarURL(URL.createObjectURL(file)); // Podgląd pliku
   setUploading(true);
 
   try {
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64String = reader.result?.toString().split(',')[1];
-      const response = await fetch('/.netlify/functions/upload-avatar', {
-        method: 'POST',
-        body: JSON.stringify({ avatar: base64String }),
-        headers: { 'Content-Type': 'application/json' },
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
+
+    const response = await fetch(CLOUDINARY_URL, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) throw new Error('Failed to upload to Cloudinary');
+
+    const result = await response.json();
+    const cloudinaryLink = result.secure_url;
+
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) throw new Error("Authorization token not found.");
+
+      const updateResponse = await fetch(`${API_URL}/profile/${loggedInUserId}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ photoURL: cloudinaryLink }),
       });
 
-      if (!response.ok) throw new Error('Failed to upload avatar');
+      if (!updateResponse.ok) throw new Error('Failed to update avatar on server.');
+    } catch (err) {
+      console.error('Error updating avatar on server:', err);
+      alert('Failed to save avatar on server.');
+    }
 
-      const { photoURL } = await response.json();
-
-      if (userData) {
-        const updatedUser = { ...userData, photoURL };
-        setUserData(updatedUser);
-        setInitialUserData(updatedUser);
-      }
+    if (userData) {
+      const updatedUser = { ...userData, photoURL: cloudinaryLink };
+      setUserData(updatedUser);
       updateUserData({
-        displayName: userData?.displayName || '',
-        photoURL,
-        birthDate: userData?.birthDate || null,
-        location: userData?.location || null,
-        fontColor: userData?.fontColor || null,
-        userDescription: userData?.userDescription || null,
+        displayName: userData.displayName,
+        photoURL: cloudinaryLink,
+        birthDate: userData.birthDate,
+        location: userData.location,
+        fontColor: userData.fontColor,
+        userDescription: userData.userDescription,
       });
-    };
-    reader.readAsDataURL(file);
+      setAvatarVersion(Date.now()); // cache busting
+    }
   } catch (error) {
     console.error('Error uploading avatar:', error);
-    alert('Error uploading avatar.');
+    alert('Error uploading avatar to Imgur. Please try again.');
   } finally {
     setUploading(false);
     setPreviewAvatarURL(null);
   }
 };
+
 
   useEffect(() => {
     return () => {
@@ -254,9 +288,6 @@ const handleBirthDateChange = (date: Date | null) => {
       });
     }
   };
-
-  const [showColorPicker, setShowColorPicker] = useState(false);
-  const colorRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -316,13 +347,13 @@ const handleBirthDateChange = (date: Date | null) => {
         <div className="profile-image">
           <a href="#!" onClick={handleImageClick}>
             <img
-              src={previewAvatarURL || userData.photoURL || DEFAULT_AVATAR}
+              src={`${previewAvatarURL || `${userData.photoURL}?f_auto&q_auto&v=${avatarVersion}` || DEFAULT_AVATAR}`}
               alt="Profile"
               style={{
                 cursor: profileUserId === loggedInUserId ? "pointer" : "default",
                 opacity: uploading ? 0.5 : 1,
-                border: `4px solid ${userData.fontColor || "#000000"}`, // Dodajemy obramowanie w kolorze fontColor
-                borderRadius: "50%", // Utrzymujemy zaokrąglenie
+                border: `4px solid ${userData.fontColor || "#000000"}`,
+                borderRadius: "50%",
               }}
             />
             {uploading && <div className="loader">Uploading...</div>}

@@ -4,7 +4,7 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "start": "tsx index.ts",
+    "start": "tsx index.ts --omit=dev",
     "dev": "tsx watch index.ts"
   },
   "keywords": [],

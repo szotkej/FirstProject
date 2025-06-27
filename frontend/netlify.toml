@@ -1,12 +1,6 @@
 [build]
   command = "npm run build"
   publish = "dist"
-  functions = "netlify/functions"
 
 [dev]
   command = "npm run dev"
-
-[[redirects]]
-  from = "/uploads/avatars/*"
-  to = "/uploads/avatars/:splat"
-  status = 200

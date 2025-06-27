@@ -6,7 +6,6 @@ import cors from 'cors';
 import http from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
-import profileRouter from './routes/profile.ts';
 
 // Firebase configuration
 import admin from './firebase/firebaseConfig';
@@ -205,10 +204,6 @@ app.put('/api/profile/:uid', authenticate, async (req: Request, res: Response) =
   }
 });
 
-app.use('/uploads', express.static('uploads')); // Publiczny dostęp do uploadów
-
-app.use('/api', profileRouter);
-
 // Create HTTP server
 const server = http.createServer(app);
 
@@ -382,7 +377,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ error: 'Coś poszło nie tak!' });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001; // Użyj PORT z Railway, domyślnie 3001 lokalnie
 server.listen(PORT, () => {
-  console.log(`Server + WS działa na porcie ${PORT}`);
+  console.log(`Server + WS działa na porcie ${PORT}`); // Zaktualizuj log
 });
