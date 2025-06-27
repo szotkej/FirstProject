@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import "../styles/NavbarMainv2.css";
+
 const DEFAULT_AVATAR = "/assets/default_avatar.jpg";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const NavbarMain: React.FC = () => {
-  const { displayName, photoURL, fontColor } = useAuth();
+  const { displayName, photoURL, fontColor, uid } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<{ id: string, displayName: string }[]>([]);
@@ -57,6 +58,15 @@ const NavbarMain: React.FC = () => {
     navigate(`/player?id=${userId}`);
     setSearchTerm("");
     setSearchResults([]);
+  };
+
+  const handleProfileClick = () => {
+    if (uid) {
+      navigate(`/player?id=${uid}`); // Navigate to /player?id={uid}
+    } else {
+      console.error("User ID not available");
+      navigate("/"); // Fallback to home if uid is not available
+    }
   };
 
   return (
@@ -120,10 +130,10 @@ const NavbarMain: React.FC = () => {
               <div className="menu-header">
                 <h6>Welcome!</h6>
               </div>
-              <a href="/player" className="result-item">
+              <div className="result-item" onClick={handleProfileClick}>
                 <i className="ni ni-single-02"></i>
                 <span>My profile</span>
-              </a>
+              </div>
               <a href="/lobby" className="result-item">
                 <i className="ni ni-settings-gear-65"></i>
                 <span>Lobby</span>
